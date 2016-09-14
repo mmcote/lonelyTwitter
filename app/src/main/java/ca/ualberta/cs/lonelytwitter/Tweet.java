@@ -1,5 +1,6 @@
 package ca.ualberta.cs.lonelytwitter;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -8,6 +9,7 @@ import java.util.Date;
 public abstract class Tweet {
     private String message;
     private Date date;
+    private ArrayList<CurrentMood> mood_list = new ArrayList<CurrentMood>();
 
     public Tweet(String message){
         this.message = message;
@@ -16,6 +18,12 @@ public abstract class Tweet {
     public Tweet(String message, Date date) {
         this.message = message;
         this.date = date;
+    }
+
+    public Tweet(String message, Date date, CurrentMood mood){
+        this.message = message;
+        this.date = date;
+        this.mood_list.add(mood);
     }
 
     // method prototype and then all the children classes will be forced to implement this function
