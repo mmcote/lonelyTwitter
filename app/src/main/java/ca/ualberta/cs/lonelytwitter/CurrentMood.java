@@ -14,14 +14,15 @@ public abstract class CurrentMood {
         this.date = new Date();
     }
 
+    public CurrentMood(String mood, Date date){
+        this.mood = mood;
+        this.date = date;
+    }
+
     public abstract String format();
 
     public Date getDate() {
         return date;
-    }
-
-    public void setDate(){
-        this.date = new Date();
     }
 
     public void setDate(Date date) {
