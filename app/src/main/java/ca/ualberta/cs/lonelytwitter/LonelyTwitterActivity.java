@@ -31,7 +31,6 @@ public class LonelyTwitterActivity extends Activity {
 	private ListView oldTweetsList;
 
 	private ArrayList<Tweet> tweetList = new ArrayList<Tweet>();
-
 	private ArrayAdapter<Tweet> adapter;
 
 	/** Called when the activity is first created. */
@@ -42,6 +41,7 @@ public class LonelyTwitterActivity extends Activity {
 
 		bodyText = (EditText) findViewById(R.id.body);
 		Button saveButton = (Button) findViewById(R.id.save);
+        Button clearButton = (Button) findViewById(R.id.clear);
 		oldTweetsList = (ListView) findViewById(R.id.oldTweetsList);
 
 		saveButton.setOnClickListener(new View.OnClickListener() {
@@ -55,57 +55,63 @@ public class LonelyTwitterActivity extends Activity {
 				tweetList.add(newTweet);
 				adapter.notifyDataSetChanged();
 
-				saveInFile();
+                saveInFile();
 			}
 		});
+
+        clearButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                setResult(RESULT_OK);
+
+                tweetList.clear();
+                adapter.notifyDataSetChanged();
+
+                saveInFile();
+            }
+        });
 	}
 
 	@Override
 	protected void onStart() {
 		// TODO Auto-generated method stub
 		super.onStart();
-		loadFromFile();
+        loadFromFile();
 		adapter = new ArrayAdapter<Tweet>(this,
 				R.layout.list_item, tweetList);
 		oldTweetsList.setAdapter(adapter);
 	}
 
 	private void loadFromFile() {
-		try {
+        try {
 			FileInputStream fis = openFileInput(FILENAME);
 			BufferedReader in = new BufferedReader(new InputStreamReader(fis));
 
-			Gson gson = new Gson();
+            Gson gson = new Gson();
+            Type listtype = new TypeToken<ArrayList<NormalTweet>>(){}.getType();
 
-			// Code from http://stackoverflow.com/questions/12384064/gson-convert-from-json-to-a-typed-arraylistt
-			Type listType = new TypeToken<ArrayList<NormalTweet>>(){}.getType();
-
-			tweetList = gson.fromJson(in,listType);
-
-		} catch (FileNotFoundException e) {
+            tweetList = gson.fromJson(in,listtype);
+        } catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			tweetList = new ArrayList<Tweet>();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			throw new RuntimeException();
 		}
-	}
-	
+    }
+
 	private void saveInFile() {
 		try {
-			FileOutputStream fos = openFileOutput(FILENAME,
-					0);
+			FileOutputStream fos = openFileOutput(FILENAME, 0);
+            BufferedWriter out = new BufferedWriter(new OutputStreamWriter(fos));
 
-			BufferedWriter out = new BufferedWriter(new OutputStreamWriter(fos));
-
-			Gson gson = new Gson();
+            Gson gson = new Gson();
 			gson.toJson(tweetList, out);
-			out.flush();
+            out.flush();
 
 			fos.close();
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
-			throw new RuntimeException();
+            throw new RuntimeException();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			throw new RuntimeException();
