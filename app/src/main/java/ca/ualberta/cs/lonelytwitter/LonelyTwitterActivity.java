@@ -1,5 +1,4 @@
 package ca.ualberta.cs.lonelytwitter;
-
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileInputStream;
@@ -101,6 +100,8 @@ public class LonelyTwitterActivity extends Activity {
 
 	private void saveInFile() {
 		try {
+			// https://developer.android.com/reference/android/content/Context.html#openFileOutput(java.lang.String,%20int)
+			// openFileOutput(/*The name of the file to open (String)*/, /*Operating mode (Int)*/);
 			FileOutputStream fos = openFileOutput(FILENAME, 0);
             BufferedWriter out = new BufferedWriter(new OutputStreamWriter(fos));
 
