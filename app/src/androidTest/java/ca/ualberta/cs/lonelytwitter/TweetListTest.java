@@ -10,12 +10,18 @@ import java.util.concurrent.TimeUnit;
 /**
  * Created by mmcote on 2016-09-27.
  */
-
 public class TweetListTest extends ActivityInstrumentationTestCase2<LonelyTwitterActivity> {
+    /**
+     * Instantiates a new Tweet list test.
+     */
     public TweetListTest() {
         super(LonelyTwitterActivity.class);
     }
 
+    /**
+     * Test add tweet.
+     * @see Tweet
+     */
     public void testAddTweet() {
         TweetList list = new TweetList();
 
@@ -25,6 +31,10 @@ public class TweetListTest extends ActivityInstrumentationTestCase2<LonelyTwitte
         assertTrue(list.hasTweet(tweet));
     }
 
+    /**
+     * Test has a tweet in the TweetList.
+     * @see TweetList
+     */
     public void testHasTweet() {
         TweetList list = new TweetList();
 
@@ -35,6 +45,10 @@ public class TweetListTest extends ActivityInstrumentationTestCase2<LonelyTwitte
         assertTrue(list.hasTweet(tweet));
     }
 
+    /**
+     * Test get a tweet from TweetList.
+     * @see TweetList
+     */
     public void testGetTweet() {
         TweetList list = new TweetList();
 
@@ -48,6 +62,10 @@ public class TweetListTest extends ActivityInstrumentationTestCase2<LonelyTwitte
         assertEquals(b, list.getTweet(1));
     }
 
+    /**
+     * Test delete a tweet from the tweetList.
+     * @see TweetList
+     */
     public void testDeleteTweet() {
         TweetList list = new TweetList();
 
@@ -60,6 +78,12 @@ public class TweetListTest extends ActivityInstrumentationTestCase2<LonelyTwitte
         assertFalse(list.hasTweet(a));
     }
 
+    /**
+     * Test add a tweet duplicate to TweetList, should flag an
+     * exception.
+     *
+     * @see TweetList
+     */
     public void testAddTweetDuplicate() {
         TweetList list = new TweetList();
 
@@ -75,6 +99,10 @@ public class TweetListTest extends ActivityInstrumentationTestCase2<LonelyTwitte
         }
     }
 
+    /**
+     * Test get tweets, this should be in a sorted format.
+     * @see TweetList
+     */
     public void testGetTweets() {
         TweetList list = new TweetList();
 
@@ -105,6 +133,10 @@ public class TweetListTest extends ActivityInstrumentationTestCase2<LonelyTwitte
         assertTrue("Not the same", sortedList.getTweet(2) == tweet3);
     }
 
+    /**
+     * Test get count of tweets in TweetList.
+     * @see TweetList
+     */
     public void testGetCount() {
         TweetList list = new TweetList();
 
