@@ -20,8 +20,10 @@ import java.util.Date;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -41,6 +43,7 @@ import com.google.gson.reflect.TypeToken;
  */
 public class LonelyTwitterActivity extends Activity {
 
+    private Activity activity = this;
     /**
      * This is the final name that is being saved / loaded and contains all the tweets.
      * @see #loadFromFile()
@@ -65,6 +68,10 @@ public class LonelyTwitterActivity extends Activity {
      * will be updated as the user updates more tweets.
 	 */
 	private ArrayAdapter<Tweet> adapter;
+
+	public ListView getOldTweetsList() {
+		return oldTweetsList;
+	}
 
 	/**
      * Called when the activity is first created.
@@ -99,11 +106,24 @@ public class LonelyTwitterActivity extends Activity {
                 setResult(RESULT_OK);
 
                 tweetList.clear();
+                deleteFile(FILENAME);
                 adapter.notifyDataSetChanged();
 
                 saveInFile();
             }
         });
+
+        oldTweetsList.setOnItemClickListener(
+                new AdapterView.OnItemClickListener() {
+                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                        Intent intent = new Intent(activity, EditTweetActivity.class);
+						Tweet temp = (Tweet) oldTweetsList.getItemAtPosition(i);
+						intent.putExtra("clickedTweet", String.valueOf(temp.getMessage()));
+						startActivity(intent);
+                    }
+                }
+        );
+
 	}
 
     /**
